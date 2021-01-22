@@ -11,7 +11,7 @@ if (require("electron-squirrel-startup")) {
 }
 let toggle = false;
 let tray: Tray;
-app.dock.hide();
+app.dock?.hide();
 
 const createWindow = (): BrowserWindow => {
   // Create the browser window.
@@ -63,7 +63,12 @@ app.on("ready", () => {
   const positioner = new Positioner(win);
 
   // Moves the window top right on the screen.
-  positioner.move("trayLeft", tray.getBounds());
+  const isWin = process.platform === "win32";
+  if (isWin) {
+    positioner.move("trayBottomCenter", tray.getBounds());
+  } else {
+    positioner.move("trayLeft", tray.getBounds());
+  }
 
   tray.on("click", () => {
     if (BrowserWindow.getAllWindows().length === 0) {

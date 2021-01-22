@@ -53,6 +53,8 @@ document
 document.querySelector("#kill").addEventListener("click", (): void => {
   if (activePort) {
     kill(activePort);
+    let port = document.querySelector("#port") as HTMLInputElement;
+    port.value = "";
   }
 });
 
